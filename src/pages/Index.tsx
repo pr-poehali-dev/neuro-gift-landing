@@ -186,57 +186,144 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-purple-50 via-white to-pink-50">
-        <div className="container mx-auto">
-          <div className="text-center mb-12 animate-fade-in">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Нейро-студия персональных подарков
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-              Создаём уникальные поздравления, оживлённые фото и арт-продукты с помощью нейросетей
-              — быстро, стильно и персонально
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button size="lg" className="text-lg px-8">
-                <Icon name="Sparkles" className="mr-2" size={20} />
-                Заказать персонализацию
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8">
-                <Icon name="Play" className="mr-2" size={20} />
-                Посмотреть примеры
-              </Button>
+      <section className="relative pt-24 pb-20 px-4 overflow-hidden bg-gradient-to-br from-purple-900 via-purple-800 to-pink-900">
+        <div className="absolute inset-0 bg-[url('https://cdn.poehali.dev/projects/50f65889-06dd-4553-8a46-ef46c669ead4/files/1bd7e0fd-9425-484c-8a16-84a9bf77bdfb.jpg')] bg-cover bg-center opacity-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-purple-900/90 to-transparent"></div>
+        
+        <div className="container mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-white animate-fade-in">
+              <Badge className="mb-6 bg-white/20 text-white border-white/30 backdrop-blur-sm text-base px-4 py-2">
+                <Icon name="Sparkles" className="mr-2" size={18} />
+                Работаем с нейросетями
+              </Badge>
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                Персональные подарки,
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300">
+                  которые удивляют
+                </span>
+              </h1>
+              <p className="text-xl text-purple-100 mb-8 leading-relaxed">
+                Создаём уникальные песни, оживляём фото и делаем арт с помощью нейросетей — быстро, стильно и с душой
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button size="lg" className="text-lg px-8 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 shadow-2xl shadow-pink-500/50">
+                  <Icon name="Gift" className="mr-2" size={20} />
+                  Получить демо бесплатно
+                </Button>
+                <Button size="lg" variant="outline" className="text-lg px-8 border-2 border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
+                  <Icon name="Play" className="mr-2" size={20} />
+                  Посмотреть примеры
+                </Button>
+              </div>
+            </div>
+
+            <div className="relative animate-scale-in">
+              <div className="absolute -inset-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-3xl blur-3xl opacity-30 animate-pulse"></div>
+              <Card className="overflow-hidden border-2 border-white/20 shadow-2xl backdrop-blur-sm bg-white/5 relative">
+                <CardContent className="p-0">
+                  <div className="relative h-[400px]">
+                    <img 
+                      src="https://cdn.poehali.dev/projects/50f65889-06dd-4553-8a46-ef46c669ead4/files/1bd7e0fd-9425-484c-8a16-84a9bf77bdfb.jpg"
+                      alt="Нейростудия"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 to-transparent flex flex-col justify-end p-8">
+                      <Badge className="mb-4 w-fit bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                        {heroSlides[currentSlide].tag}
+                      </Badge>
+                      <h3 className="text-2xl font-bold mb-2 text-white">{heroSlides[currentSlide].title}</h3>
+                      <p className="text-purple-100">{heroSlides[currentSlide].description}</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-center gap-2 py-4 bg-white/10 backdrop-blur-sm">
+                    {heroSlides.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`h-2 rounded-full transition-all ${
+                          currentSlide === index ? 'bg-white w-8' : 'bg-white/40 w-2'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="max-w-4xl mx-auto mt-16 relative animate-scale-in">
-            <Card className="overflow-hidden border-2 border-primary/20 shadow-2xl">
-              <CardContent className="p-0">
-                <div className="bg-gradient-to-br from-primary/10 to-secondary/10 p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
-                  <div className="text-8xl mb-6">
-                    {heroSlides[currentSlide].type === 'audio' && '🎵'}
-                    {heroSlides[currentSlide].type === 'video' && '🎬'}
-                    {heroSlides[currentSlide].type === 'poster' && '🖼️'}
-                  </div>
-                  <Badge className="mb-4">{heroSlides[currentSlide].tag}</Badge>
-                  <h3 className="text-2xl font-bold mb-2">{heroSlides[currentSlide].title}</h3>
-                  <p className="text-muted-foreground">{heroSlides[currentSlide].description}</p>
-                  {heroSlides[currentSlide].type === 'audio' && (
-                    <Button variant="secondary" className="mt-6">
-                      <Icon name="Play" className="mr-2" size={18} />
-                      Прослушать 30 сек
-                    </Button>
-                  )}
+      <section className="py-20 px-4 bg-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full blur-3xl opacity-20"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-200 rounded-full blur-3xl opacity-20"></div>
+        
+        <div className="container mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+              Почему выбирают <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">НейроСтудию</span>
+            </h2>
+            <p className="text-xl text-muted-foreground">Уникальное торговое предложение</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <Card className="text-center hover:shadow-2xl transition-all hover:-translate-y-2 border-2 border-transparent hover:border-purple-200 bg-gradient-to-br from-purple-50 to-white group">
+              <CardHeader>
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl shadow-purple-500/50">
+                  <Icon name="Zap" className="text-white" size={40} />
                 </div>
-                <div className="flex justify-center gap-2 py-4 bg-white">
-                  {heroSlides.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-3 h-3 rounded-full transition-all ${
-                        currentSlide === index ? 'bg-primary w-8' : 'bg-gray-300'
-                      }`}
-                    />
-                  ))}
+                <CardTitle className="text-2xl mb-4">Демо за 24 часа</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  Получите пробную версию вашего заказа бесплатно уже завтра. Никаких предоплат — только результат
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-2xl transition-all hover:-translate-y-2 border-2 border-transparent hover:border-pink-200 bg-gradient-to-br from-pink-50 to-white group">
+              <CardHeader>
+                <div className="w-20 h-20 bg-gradient-to-br from-pink-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl shadow-pink-500/50">
+                  <Icon name="Heart" className="text-white" size={40} />
+                </div>
+                <CardTitle className="text-2xl mb-4">100% персонализация</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  Имя, дата, личная история — всё вплетается в песню, видео или постер. Каждый подарок уникален
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-2xl transition-all hover:-translate-y-2 border-2 border-transparent hover:border-purple-200 bg-gradient-to-br from-blue-50 to-white group">
+              <CardHeader>
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-xl shadow-blue-500/50">
+                  <Icon name="Award" className="text-white" size={40} />
+                </div>
+                <CardTitle className="text-2xl mb-4">Премиум-качество</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  Студийный мастеринг аудио, печать на холсте, профессиональная обработка. Подарок достойного уровня
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-16 text-center">
+            <Card className="max-w-4xl mx-auto bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 shadow-2xl">
+              <CardContent className="p-12">
+                <div className="flex flex-col md:flex-row items-center gap-8">
+                  <div className="flex-1 text-left">
+                    <h3 className="text-3xl font-bold mb-4">Не знаете, что подарить?</h3>
+                    <p className="text-xl text-purple-100">
+                      Закажите бесплатную консультацию — подберём идеальный вариант под ваш повод и бюджет
+                    </p>
+                  </div>
+                  <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 text-lg px-8 py-6 shadow-xl">
+                    <Icon name="MessageCircle" className="mr-2" size={20} />
+                    Получить консультацию
+                  </Button>
                 </div>
               </CardContent>
             </Card>
