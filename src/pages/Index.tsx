@@ -1,11 +1,602 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import Icon from '@/components/ui/icon';
+import { toast } from 'sonner';
 
 const Index = () => {
+  const [activeFilter, setActiveFilter] = useState('Все');
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSlides = [
+    {
+      type: 'audio',
+      title: 'Персональная песня "С днём рождения, Анна"',
+      description: 'Уникальный трек с именем именинницы',
+      tag: 'Песня',
+    },
+    {
+      type: 'video',
+      title: 'Оживлённое семейное фото',
+      description: 'Движение, свет и эмоции в старом кадре',
+      tag: 'Анимация фото',
+    },
+    {
+      type: 'poster',
+      title: 'Интерьерный постер "Космос внутри"',
+      description: 'Персонализированный арт для гостиной',
+      tag: 'Постер',
+    },
+  ];
+
+  const services = [
+    {
+      icon: 'MessageSquare',
+      title: 'Персональные поздравления',
+      description: 'Текст и аудио-версия с профессиональным озвучиванием',
+      price: 'от 999 ₽',
+    },
+    {
+      icon: 'Video',
+      title: 'Видео-поздравления',
+      description: 'Анимация, стилизация и живые подписи',
+      price: 'от 2 499 ₽',
+    },
+    {
+      icon: 'Music',
+      title: 'Персональные песни',
+      description: 'Куплет с именем, настроение под заказ, mp3 + обложка',
+      price: 'от 6 999 ₽',
+    },
+    {
+      icon: 'Camera',
+      title: 'Нейрофотосессии',
+      description: 'Оживление фото: анимация движения и света',
+      price: 'от 1 499 ₽',
+    },
+    {
+      icon: 'Image',
+      title: 'Интерьерные постеры',
+      description: 'От постера до холста, подготовка к печати',
+      price: 'от 3 499 ₽',
+    },
+    {
+      icon: 'Calendar',
+      title: 'Сценарии праздника',
+      description: 'Готовый план и тайм-лайн для вашего события',
+      price: 'от 1 199 ₽',
+    },
+  ];
+
+  const portfolio = [
+    { id: 1, category: 'Песни', title: 'Песня "Мама, спасибо"', image: '🎵' },
+    { id: 2, category: 'Видео', title: 'Свадебное поздравление', image: '🎬' },
+    { id: 3, category: 'Анимация', title: 'Оживлённое фото 1985 года', image: '✨' },
+    { id: 4, category: 'Постеры', title: 'Семейный портрет в стиле ар-деко', image: '🖼️' },
+    { id: 5, category: 'Песни', title: 'Корпоративный гимн', image: '🎶' },
+    { id: 6, category: 'Открытки', title: 'Открытка со знаком зодиака', image: '♌' },
+  ];
+
+  const steps = [
+    {
+      icon: 'MessageCircle',
+      title: 'Расскажите о человеке',
+      description: 'Заполните форму или пройдите быстрый квиз — имя, повод, история',
+    },
+    {
+      icon: 'Sparkles',
+      title: 'Получите демо бесплатно',
+      description: '30-сек. аудио или мини-анимация за 24 часа',
+    },
+    {
+      icon: 'CheckCircle',
+      title: 'Утвердите правки',
+      description: 'Мы дорабатываем до идеала',
+    },
+    {
+      icon: 'Gift',
+      title: 'Получите готовый продукт',
+      description: 'Файл для отправки + опция печати/доставки',
+    },
+  ];
+
+  const faq = [
+    {
+      question: 'Сколько времени занимает заказ?',
+      answer: 'Стандартный срок — 3-7 рабочих дней. Демо-версия готова за 24 часа. Есть срочный выпуск за дополнительную плату.',
+    },
+    {
+      question: 'Можно ли добавить имя в песню?',
+      answer: 'Да! Имя, дата, даже короткая история — всё это органично вплетается в текст и мелодию.',
+    },
+    {
+      question: 'Как будут защищены мои фото и данные?',
+      answer: 'Полная конфиденциальность. Исходники удаляются по запросу после завершения проекта.',
+    },
+    {
+      question: 'Есть ли права на использование контента?',
+      answer: 'Да, передаём коммерческую лицензию на все заказные материалы.',
+    },
+    {
+      question: 'Можно ли заказать печать и доставку?',
+      answer: 'Да, работаем с доставкой по РФ и СНГ. Печать на холсте, постере или фотобумаге.',
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Мария К.',
+      occasion: 'День рождения мамы',
+      text: 'Песня довела гостей до слёз — спасибо! Мама пересматривала видео раз 20.',
+    },
+    {
+      name: 'Дмитрий П.',
+      occasion: 'Корпоратив',
+      text: 'Заказали персонализированные открытки для всей команды. Все в восторге!',
+    },
+    {
+      name: 'Анна Л.',
+      occasion: 'Годовщина свадьбы',
+      text: 'Оживили наше свадебное фото — это магия! Теперь висит в рамке в гостиной.',
+    },
+  ];
+
+  const filteredPortfolio =
+    activeFilter === 'Все'
+      ? portfolio
+      : portfolio.filter((item) => item.category === activeFilter);
+
+  const handleDemoSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success('Заявка отправлена! Мы свяжемся с вами в течение 24 часов.');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
+    <div className="min-h-screen">
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-border">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <Icon name="Sparkles" className="text-primary" size={28} />
+            <span className="text-xl font-bold">НейроСтудия</span>
+          </div>
+          <nav className="hidden md:flex gap-6">
+            <a href="#services" className="hover:text-primary transition-colors">
+              Услуги
+            </a>
+            <a href="#portfolio" className="hover:text-primary transition-colors">
+              Портфолио
+            </a>
+            <a href="#prices" className="hover:text-primary transition-colors">
+              Цены
+            </a>
+            <a href="#faq" className="hover:text-primary transition-colors">
+              FAQ
+            </a>
+          </nav>
+          <Button>Заказать</Button>
+        </div>
+      </header>
+
+      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-purple-50 via-white to-pink-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-12 animate-fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Нейро-студия персональных подарков
+            </h1>
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+              Создаём уникальные поздравления, оживлённые фото и арт-продукты с помощью нейросетей
+              — быстро, стильно и персонально
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button size="lg" className="text-lg px-8">
+                <Icon name="Sparkles" className="mr-2" size={20} />
+                Заказать персонализацию
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8">
+                <Icon name="Play" className="mr-2" size={20} />
+                Посмотреть примеры
+              </Button>
+            </div>
+          </div>
+
+          <div className="max-w-4xl mx-auto mt-16 relative animate-scale-in">
+            <Card className="overflow-hidden border-2 border-primary/20 shadow-2xl">
+              <CardContent className="p-0">
+                <div className="bg-gradient-to-br from-primary/10 to-secondary/10 p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
+                  <div className="text-8xl mb-6">
+                    {heroSlides[currentSlide].type === 'audio' && '🎵'}
+                    {heroSlides[currentSlide].type === 'video' && '🎬'}
+                    {heroSlides[currentSlide].type === 'poster' && '🖼️'}
+                  </div>
+                  <Badge className="mb-4">{heroSlides[currentSlide].tag}</Badge>
+                  <h3 className="text-2xl font-bold mb-2">{heroSlides[currentSlide].title}</h3>
+                  <p className="text-muted-foreground">{heroSlides[currentSlide].description}</p>
+                  {heroSlides[currentSlide].type === 'audio' && (
+                    <Button variant="secondary" className="mt-6">
+                      <Icon name="Play" className="mr-2" size={18} />
+                      Прослушать 30 сек
+                    </Button>
+                  )}
+                </div>
+                <div className="flex justify-center gap-2 py-4 bg-white">
+                  {heroSlides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        currentSlide === index ? 'bg-primary w-8' : 'bg-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Почему это работает</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Zap" className="text-primary" size={32} />
+                </div>
+                <CardTitle>Быстро</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Демо-версии за 24 часа</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Heart" className="text-secondary" size={32} />
+                </div>
+                <CardTitle>Персонально</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">Имя, дата, история — в каждом продукте</p>
+              </CardContent>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name="Award" className="text-primary" size={32} />
+                </div>
+                <CardTitle>Премиально</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Печать и материалы для интерьера, студийный мастеринг
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" className="py-20 px-4 bg-gradient-to-br from-purple-50 to-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Услуги</h2>
+            <p className="text-muted-foreground">Создаём эмоции с помощью нейросетей</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map((service, index) => (
+              <Card
+                key={index}
+                className="hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group"
+              >
+                <CardHeader>
+                  <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Icon name={service.icon as any} className="text-white" size={28} />
+                  </div>
+                  <CardTitle className="text-xl">{service.title}</CardTitle>
+                  <CardDescription>{service.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl font-bold text-primary">{service.price}</span>
+                    <Button variant="ghost" size="sm">
+                      <Icon name="ArrowRight" size={18} />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio" className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Портфолио</h2>
+            <p className="text-muted-foreground mb-8">Примеры наших работ</p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {['Все', 'Песни', 'Видео', 'Анимация', 'Постеры', 'Открытки'].map((filter) => (
+                <Button
+                  key={filter}
+                  variant={activeFilter === filter ? 'default' : 'outline'}
+                  onClick={() => setActiveFilter(filter)}
+                >
+                  {filter}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredPortfolio.map((item) => (
+              <Card
+                key={item.id}
+                className="overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 cursor-pointer group"
+              >
+                <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-6xl group-hover:scale-105 transition-transform">
+                  {item.image}
+                </div>
+                <CardHeader>
+                  <Badge variant="secondary" className="w-fit">
+                    {item.category}
+                  </Badge>
+                  <CardTitle className="text-lg">{item.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1">
+                      <Icon name="Play" className="mr-1" size={14} />
+                      Смотреть
+                    </Button>
+                    <Button size="sm" className="flex-1">
+                      Заказать похожее
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-gradient-to-br from-primary to-secondary text-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Как это работает</h2>
+            <p className="text-white/80">Всего 4 простых шага до готового продукта</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
+            {steps.map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icon name={step.icon as any} className="text-white" size={32} />
+                </div>
+                <div className="text-4xl font-bold mb-2">{index + 1}</div>
+                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                <p className="text-white/80">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto max-w-2xl">
+          <Card className="border-2 border-primary shadow-xl">
+            <CardHeader className="text-center">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Icon name="Gift" className="text-primary" size={32} />
+              </div>
+              <CardTitle className="text-3xl">Получите демо бесплатно</CardTitle>
+              <CardDescription className="text-lg">
+                30-сек. аудио-поздравление или мини-анимация за 24 часа
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleDemoSubmit} className="space-y-4">
+                <div>
+                  <Input placeholder="Ваше имя" required />
+                </div>
+                <div>
+                  <Input placeholder="Email или Telegram" required />
+                </div>
+                <div>
+                  <Textarea placeholder="Повод и краткая история (например: день рождения сестры, 30 лет, любит котов)" rows={4} required />
+                </div>
+                <Button type="submit" className="w-full" size="lg">
+                  <Icon name="Sparkles" className="mr-2" size={20} />
+                  Получить демо бесплатно
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section id="prices" className="py-20 px-4 bg-gradient-to-br from-purple-50 to-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Цены</h2>
+            <p className="text-muted-foreground">Ориентировочная стоимость услуг</p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {services.map((service, index) => (
+              <Card key={index} className="text-center hover:shadow-xl transition-all">
+                <CardHeader>
+                  <CardTitle className="text-lg">{service.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-3xl font-bold text-primary mb-4">{service.price}</div>
+                  <Button className="w-full">Заказать</Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <p className="text-center text-muted-foreground mt-8">
+            Точные цены после брифинга • Доступны пакеты и срочный выпуск
+          </p>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Отзывы</h2>
+            <p className="text-muted-foreground">Что говорят наши клиенты</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-xl">
+                      {testimonial.name[0]}
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                      <p className="text-sm text-muted-foreground">{testimonial.occasion}</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground italic">"{testimonial.text}"</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="py-20 px-4 bg-gradient-to-br from-purple-50 to-white">
+        <div className="container mx-auto max-w-3xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">Частые вопросы</h2>
+          </div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {faq.map((item, index) => (
+              <AccordionItem key={index} value={`item-${index}`} className="bg-white rounded-lg px-6 border">
+                <AccordionTrigger className="text-left font-semibold hover:no-underline">
+                  {item.question}
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground">
+                  {item.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+
+      <section className="py-20 px-4 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-bold mb-8">Почему нам доверяют</h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+            <div>
+              <div className="text-5xl font-bold text-primary mb-2">100+</div>
+              <p className="text-muted-foreground">Завершённых проектов</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-primary mb-2">98%</div>
+              <p className="text-muted-foreground">Довольных клиентов</p>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-primary mb-2">24ч</div>
+              <p className="text-muted-foreground">Среднее время демо</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer className="bg-gray-900 text-white py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Icon name="Sparkles" size={24} />
+                <span className="text-xl font-bold">НейроСтудия</span>
+              </div>
+              <p className="text-gray-400 text-sm">
+                Персональные подарки с душой и нейросетями
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Ссылки</h3>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <a href="#services" className="hover:text-white transition-colors">
+                    Услуги
+                  </a>
+                </li>
+                <li>
+                  <a href="#portfolio" className="hover:text-white transition-colors">
+                    Портфолио
+                  </a>
+                </li>
+                <li>
+                  <a href="#prices" className="hover:text-white transition-colors">
+                    Цены
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="hover:text-white transition-colors">
+                    FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Контакты</h3>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-center gap-2">
+                  <Icon name="Mail" size={16} />
+                  hello@neurostudio.ru
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="Phone" size={16} />
+                  +7 (999) 123-45-67
+                </li>
+                <li className="flex items-center gap-2">
+                  <Icon name="Send" size={16} />
+                  @neurostudio_bot
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4">Подписка</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                Идеи подарков раз в неделю
+              </p>
+              <div className="flex gap-2">
+                <Input placeholder="Email" className="bg-gray-800 border-gray-700" />
+                <Button>
+                  <Icon name="Send" size={18} />
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
+            <p>© 2024 НейроСтудия. Все права защищены.</p>
+          </div>
+        </div>
+      </footer>
+
+      <div className="fixed bottom-6 right-6 md:hidden">
+        <Button size="lg" className="rounded-full shadow-2xl">
+          <Icon name="Sparkles" className="mr-2" size={20} />
+          Заказать
+        </Button>
       </div>
     </div>
   );
